@@ -74,7 +74,7 @@ const Header = () => {
     <div className='header section__padding'>
       <div className="header-content">
         <div>
-          <h1>Discover, collect, and sell extraordinary NFTs</h1>
+          <h1>Mint, twin, and sell product and warranty NFTs</h1>
           <img className='shake-vertical' src={coin} alt="" />
         </div>
       </div>
@@ -90,7 +90,7 @@ const Header = () => {
               <Link to={`/profile/Rian`}>
               <p className='slider-card-name'>James Bond</p>
               </Link>
-              <p className='slider-card-price'>5.250 <span>ETH</span></p>
+              <p className='slider-card-price'>10 <span>items</span></p>
             </div>
             <div className='slider-card'>
               <p className='slider-card-number'>2</p>
@@ -101,7 +101,7 @@ const Header = () => {
               <Link to={`/profile/Rian`}>
               <p className='slider-card-name'>Rian Leon</p>
               </Link>
-              <p className='slider-card-price'>4.932 <span>ETH</span></p>
+              <p className='slider-card-price'>9 <span>items</span></p>
             </div>
             <div className='slider-card'>
               <p className='slider-card-number'>3</p>
@@ -112,7 +112,7 @@ const Header = () => {
               <Link to={`/profile/Rian`}>
               <p className='slider-card-name'>Lady Young</p>
               </Link>
-              <p className='slider-card-price'>4.620 <span>ETH</span></p>
+              <p className='slider-card-price'>7 <span>items</span></p>
             </div>
             <div className='slider-card'>
               <p className='slider-card-number'>4</p>
@@ -123,7 +123,7 @@ const Header = () => {
               <Link to={`/profile/Rian`}>
               <p className='slider-card-name'>Black Glass</p>
               </Link>
-              <p className='slider-card-price'>4.125 <span>ETH</span></p>
+              <p className='slider-card-price'>5 <span>items</span></p>
             </div>
             <div className='slider-card'>
               <p className='slider-card-number'>5</p>
@@ -134,7 +134,7 @@ const Header = () => {
               <Link to={`/profile/Rian`}>
               <p className='slider-card-name'>Budhiman</p>
               </Link>
-              <p className='slider-card-price'>3.921 <span>ETH</span></p>
+              <p className='slider-card-price'>3 <span>items</span></p>
             </div>
             <div className='slider-card'>
               <p className='slider-card-number'>6</p>
@@ -145,7 +145,7 @@ const Header = () => {
               <Link to={`/profile/Rian`}>
               <p className='slider-card-name'>Alex</p>
               </Link>
-              <p className='slider-card-price'>3.548 <span>ETH</span></p>
+              <p className='slider-card-price'>2 <span>items</span></p>
             </div>
         </Slider>
       </div>
