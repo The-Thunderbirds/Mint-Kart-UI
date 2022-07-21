@@ -4,13 +4,6 @@ import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import logo from '../../assets/firedrop.jpg';
 import {  Link } from "react-router-dom";
 
-const Menu = () => (
-  <>
-     <Link to="/"><p>Explore</p> </Link>
-     <p>My Items</p>
-    
-  </>
- )
 
  const Navbar = () => {
   const [toggleMenu,setToggleMenu] = useState(false)
@@ -23,6 +16,13 @@ const Menu = () => (
     setUser(true);
   }
 
+  const Menu = () => (  
+    <>
+      <Link to="/"><p>Explore</p> </Link>
+      {user && <p>My Items</p>}
+    </>
+   )
+  
   return (
     <div className='navbar'>
       <div className="navbar-links">
@@ -34,7 +34,7 @@ const Menu = () => (
         </div>
         <div className="navbar-links_container">
           <input type="text" placeholder='Search Item Here' autoFocus={true} />
-         <Menu />
+         <Menu/>
          {user && <Link to="/"><p onClick={handleLogout}>Logout</p></Link> }
         
         </div>
@@ -68,7 +68,7 @@ const Menu = () => (
         {toggleMenu && (
           <div className="navbar-menu_container scale-up-center" >
             <div className="navbar-menu_container-links">
-             <Menu />
+             <Menu/>
             </div>
             <div className="navbar-menu_container-links-sign">
             {user ? (
