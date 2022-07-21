@@ -1,7 +1,7 @@
 import React,{ useState} from 'react'
 import './navbar.css'
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
-import logo from '../../assets/logo.png'
+import logo from '../../assets/firedrop.jpg';
 import {  Link } from "react-router-dom";
 
 const Menu = () => (
@@ -27,9 +27,9 @@ const Menu = () => (
     <div className='navbar'>
       <div className="navbar-links">
         <div className="navbar-links_logo">
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" height={'35px'} style={{'borderRadius':"100%"}}/>
           <Link to="/"> 
-            <h1>CryptoKet</h1>
+            <h1>MintKart</h1>
           </Link>
         </div>
         <div className="navbar-links_container">
