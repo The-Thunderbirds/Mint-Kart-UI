@@ -42,8 +42,8 @@ import {  Link } from "react-router-dom";
       <div className="navbar-sign">
       {user ? (
         <>
-         <Link to="/create"> 
-          <button type='button' className='primary-btn' >Create</button>
+         <Link to="/mint"> 
+          <button type='button' className='primary-btn'>Mint NFTs</button>
         </Link>
         <button type='button' className='secondary-btn'>Connect</button>
         </>
