@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './register.css'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import Image from '../../assets/Image.png'
-
+import axios from 'axios';
 const Register = () => {
 
   const [avatar, setAvatar] = useState('');
@@ -10,11 +10,51 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('Male');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleAvatarChange = (e) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        if (reader.readyState === 2) {
+            setAvatar(reader.result);
+        }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
+  }
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.set("name", name);
+    formData.set("email", email);
+    formData.set("gender", gender);
+    formData.set("password", password);
+    formData.set("avatar", avatar);
+
     console.log(avatar);
     console.log(name, email, password, gender)
+
+    try {
+    const config = {
+      headers: {
+          "Content-Type": "multipart/form-data",
+      },
+    }
+    const { data } = await axios.post(
+      '/api/v1/register',
+      formData,
+      config
+    );
+    console.log(data);
+    alert("Succesfully registered");
+    navigate('/login')
+
+  }catch (error){
+      console.log(error);
+  }
+
   }
 
   return (
@@ -25,14 +65,15 @@ const Register = () => {
           <div className="register-formGroup">
             <label>Upload Profile Picture</label>
             <input 
-              type="file" 
+              type="file"
+              accept="image/*" 
               className='custom-file-input'
-              onChange={(event) => setAvatar(event.target.files[0] || null)} 
+              onChange={handleAvatarChange} 
             />
           </div>
           <p className='upload-file' style={{"marginBottom": "10px"}}>Profile picture</p>
           <div className="upload-img-show">
-            <img src={avatar===''? Image: URL.createObjectURL(avatar)} alt="avatar"/>     
+            <img src={avatar===''? Image: avatar} alt="avatar"/>     
           </div>
           <div className="register-formGroup">
             <label>Full Name</label>

@@ -1,15 +1,34 @@
 import React, {useState} from 'react';
 import './login.css'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import axios from 'axios';
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(email, password)
+    try {
+      const config = {
+          headers: {
+              "Content-Type": "application/json",
+          },
+      }
+      const { data } = await axios.post(
+          '/api/v1/login',
+          { email, password },
+          config
+      );
+      console.log(data);
+      alert("Succesfully logged in");
+      navigate("/create");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
