@@ -8,6 +8,7 @@ const Register = () => {
   const [avatar, setAvatar] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('Male');
   const navigate = useNavigate();
@@ -29,12 +30,12 @@ const Register = () => {
     const formData = new FormData();
     formData.set("name", name);
     formData.set("email", email);
+    formData.set("mobile_number", phone);
     formData.set("gender", gender);
     formData.set("password", password);
     formData.set("avatar", avatar);
 
-    console.log(avatar);
-    console.log(name, email, password, gender)
+    // console.log(name, email, password, gender)
 
     try {
     const config = {
@@ -42,16 +43,27 @@ const Register = () => {
           "Content-Type": "multipart/form-data",
       },
     }
+
     const { data } = await axios.post(
       '/api/v1/register',
       formData,
       config
-    );
+    ).catch(function (error) {
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+    });;
+
     console.log(data);
     alert("Succesfully registered");
     navigate('/login')
 
-  }catch (error){
+  } catch (error){
       console.log(error);
   }
 
@@ -87,6 +99,13 @@ const Register = () => {
             <input type="email" required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="register-formGroup">
+            <label>Phone Number</label>
+            <input type="tel" required
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           <div className="register-formGroup">
