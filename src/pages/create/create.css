@@ -56,6 +56,19 @@
   margin-top: 15px;
 }
 
+.modal-content {
+  background-color: var(--color-bg);
+  color: white;
+}
+
+.modal-header {
+  border-bottom: var(--bs-modal-header-border-width) solid rgba(165, 165, 165, 0.1);;
+}
+
+.modal-footer {
+  border-top: var(--bs-modal-footer-border-width) solid rgba(165, 165, 165, 0.1);;
+}
+
 .create{
   display: flex;
   font-family: var(--font-family);

@@ -10,6 +10,7 @@ const Create = () => {
 
   const [items, setItems] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     const keyDownHandler = event => {
@@ -27,7 +28,11 @@ const Create = () => {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setPassword('');
+  }
+
   const handleShow = () => setShow(true);
 
 
@@ -49,7 +54,7 @@ const Create = () => {
         <h1>Mint Warranty NFTs</h1>
         <div className='add-item-box'>
 					<input value={inputValue} onChange={(e) => setInputValue(e.target.value)} 
-          className='add-item-input' placeholder='Add product serial number...' />
+          className='add-item-input' placeholder='Add product serial number...' autofocus/>
 					<FontAwesomeIcon icon={faPlus} onClick={() => handleAddButtonClick()} />
 				</div>
         <div className='item-list'>
@@ -63,8 +68,8 @@ const Create = () => {
         </div>
         <button className='mint-button' onClick={handleShow}>Mint all Items</button>
       </div>
-      <Modal show={show} onHide={handleClose} centered >
-      <Modal.Header closeButton>
+      <Modal show={show} onHide={handleClose} centered>
+      <Modal.Header>
         <Modal.Title>Enter your password</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -74,6 +79,7 @@ const Create = () => {
             <Form.Control
               type="password"
               autoFocus
+              value={password} onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
         </Form>
@@ -83,10 +89,10 @@ const Create = () => {
           Close
         </Button>
         <Button variant="primary" onClick={handleClose}>
-          Save Changes
+          Confirm
         </Button>
       </Modal.Footer>
-    </Modal>
+      </Modal>
     </div>   
   )
 };
