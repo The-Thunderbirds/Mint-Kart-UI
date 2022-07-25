@@ -2,6 +2,9 @@ import React, {useState, useEffect} from "react";
 import './create.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const Create = () => {
 
@@ -22,12 +25,16 @@ const Create = () => {
     };
   }, [inputValue]);  
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
   const handleAddButtonClick = () => {
     console.log(inputValue)
 		const newItem = {
-			itemName: inputValue,
-			quantity: 1,
-			isSelected: false,
+			itemName: inputValue
 		};
 
 		const newItems = [...items, newItem];
@@ -54,10 +61,33 @@ const Create = () => {
             </div>
           ))}
         </div>
-        <button className='mint-button'>Mint all Items</button>
+        <button className='mint-button' onClick={handleShow}>Mint all Items</button>
       </div>
-    </div>
-   
+      <Modal show={show} onHide={handleClose} centered >
+      <Modal.Header closeButton>
+        <Modal.Title>Enter your password</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Current Password</Form.Label>
+            <Form.Control
+              type="password"
+              autoFocus
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleClose}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+    </div>   
   )
 };
 
