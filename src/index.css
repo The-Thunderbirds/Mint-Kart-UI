@@ -14,6 +14,12 @@
   --color-card : #2A2D3A;
   --color-footer : #24252D;
 }
+
+/* ===== Overwrite Bootstrap CSS ===== */
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p {
+  margin-bottom: 0px;
+}
+
 /* ===== Scrollbar CSS ===== */
   /* Firefox */
   * {
