@@ -11,6 +11,7 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('Male');
+  const [isSeller, setIsSeller] = useState('true');
   const navigate = useNavigate();
 
   const handleAvatarChange = (e) => {
@@ -24,6 +25,7 @@ const Register = () => {
 
     reader.readAsDataURL(e.target.files[0]);
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -34,8 +36,9 @@ const Register = () => {
     formData.set("gender", gender);
     formData.set("password", password);
     formData.set("avatar", avatar);
+    // formData.set("isSeller", isSeller);
 
-    // console.log(name, email, password, gender)
+    // console.log(name, email, password, gender, isSeller)
 
     try {
     const config = {
@@ -124,6 +127,16 @@ const Register = () => {
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Others">Others</option>
+            </select>          
+          </div>
+          <div className="register-formGroup">
+            <label>What represents you?</label>
+            <select
+              value={isSeller}
+              onChange={(e) => setIsSeller(e.target.value)}
+            >
+              <option value="true">Seller</option>
+              <option value="false">Customer Service</option>
             </select>          
           </div>
          <div className="register-button">
