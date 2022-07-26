@@ -52,6 +52,14 @@ const Register = () => {
       enqueueSnackbar("Password length must be atleast 8 characters", { variant: "warning" });
       return;
     }    
+    if(phone.length !== 10) {
+      enqueueSnackbar("Phone number is invalid", { variant: "warning" });
+      return;
+    }    
+    if(avatar === "") {
+      enqueueSnackbar("Please upload your profile picture", { variant: "warning" });
+      return;
+    }
 
     const formData = new FormData();
     formData.set("name", name);
