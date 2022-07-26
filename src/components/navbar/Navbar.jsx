@@ -1,6 +1,7 @@
 import React,{ useState} from 'react'
 import './navbar.css'
-import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
+import { Tooltip } from '@mui/material';
+import { RiMenu3Line, RiCloseLine, RiWallet3Line } from 'react-icons/ri';
 import logo from '../../assets/firedrop.jpg';
 import { Link, useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
@@ -48,10 +49,14 @@ const Navbar = () => {
       <div className="navbar-sign">
       {isAuthenticated ? (
         <>
-         <Link to="/mint"> 
-          <button type='button' className='primary-btn'>Mint NFTs</button>
-        </Link>
-        <button type='button' className='secondary-btn'>Connect</button>
+          <Link to="/mint"> 
+            <button type='button' className='primary-btn'>Mint NFTs</button>
+          </Link>
+          <Tooltip title={user.public_key_hash}>
+          <button type='button' className='secondary-btn' >
+            <RiWallet3Line color="#2874f0" size={27} /> {user.public_key_hash.substr(0, 7) + "..."} 
+          </button>                    
+          </Tooltip>
         </>
       ): (
         <>
