@@ -1,9 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './register.css'
 import {Link, useNavigate} from 'react-router-dom'
 import Image from '../../assets/Image.png'
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../actions/userActions';
+
 const Register = () => {
+  const dispatch = useDispatch();
+
+  const { loading, isAuthenticated, error } = useSelector((state) => state.user);
 
   const [avatar, setAvatar] = useState('');
   const [name, setName] = useState('');
@@ -13,6 +18,12 @@ const Register = () => {
   const [gender, setGender] = useState('Male');
   const [isSeller, setIsSeller] = useState('true');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleAvatarChange = (e) => {
     const reader = new FileReader();
@@ -40,36 +51,7 @@ const Register = () => {
 
     // console.log(name, email, password, gender, isSeller)
 
-    try {
-    const config = {
-      headers: {
-          "Content-Type": "multipart/form-data",
-      },
-    }
-
-    const { data } = await axios.post(
-      '/api/v1/register',
-      formData,
-      config
-    ).catch(function (error) {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-      } else if (error.request) {
-        console.log(error.request);
-      } else {
-        console.log('Error', error.message);
-      }
-    });;
-
-    console.log(data);
-    alert("Succesfully registered");
-    navigate('/login')
-
-  } catch (error){
-      console.log(error);
-  }
-
+    dispatch(registerUser(formData));
   }
 
   return (
