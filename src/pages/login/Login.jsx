@@ -1,47 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import './login.css'
-import {Link, useNavigate} from 'react-router-dom'
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-
+import { clearErrors, loginUser } from '../../actions/userActions';
+import { BackdropLoader } from '../../components';
+import { useSnackbar } from 'notistack';
 
 const Login = () => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
 
   const { loading, isAuthenticated, error } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-        navigate('/')
-    }
-}, [isAuthenticated, navigate]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(email, password)
-    try {
-      const config = {
-          headers: {
-              "Content-Type": "application/json",
-          },
-      }
-      const { data } = await axios.post(
-          '/api/v1/login',
-          { email, password },
-          config
-      );
-      console.log(data);
-      alert("Succesfully logged in");
-      navigate("/create");
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if(error) {
+      enqueueSnackbar(error, { variant: "error" });
+      dispatch(clearErrors());
     }
+    if(isAuthenticated) {
+      navigate('/')
+    }
+  }, [dispatch, error, isAuthenticated, navigate, enqueueSnackbar]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(email, password));
   }
 
   return (
+    <>
+    {loading && <BackdropLoader />}
     <div className='login section__padding'>
       <div className="login-container">
         <h1>Login</h1>
@@ -65,11 +58,12 @@ const Login = () => {
           <Link to="/register">
             <button className='login-reg-writeButton'>register</button>
           </Link>
-          <button className='login-writeButton' onClick={handleSubmit}>login</button>
+          <button className='login-writeButton' onClick={handleLogin}>login</button>
          </div>
         </form>
       </div>
     </div>
+    </>
    )
 };
 
