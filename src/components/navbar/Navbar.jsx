@@ -2,24 +2,30 @@ import React,{ useState} from 'react'
 import './navbar.css'
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import logo from '../../assets/firedrop.jpg';
-import {  Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSnackbar } from 'notistack';
+import { logoutUser } from '../../actions/userActions';
+import { useDispatch, useSelector } from 'react-redux';
 
+const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
- const Navbar = () => {
   const [toggleMenu,setToggleMenu] = useState(false)
-   const [user,setUser] = useState(false)
+
+  const { user, loading, isAuthenticated, error } = useSelector((state) => state.user);
 
   const handleLogout = () => {
-    setUser(false);
-  }
-  const handleLogin = () => {
-    setUser(true);
+    dispatch(logoutUser());
+    enqueueSnackbar("Logout Successfully", { variant: "success" });
+    navigate("/login");
   }
 
   const Menu = () => (  
     <>
       <Link to="/"><p>Explore</p> </Link>
-      {user && <p>My Items</p>}
+      {isAuthenticated && <p>My Items</p>}
     </>
    )
   
@@ -35,12 +41,12 @@ import {  Link } from "react-router-dom";
         <div className="navbar-links_container">
           <input type="text" placeholder='Search Item Here' autoFocus={true} />
          <Menu/>
-         {user && <Link to="/"><p onClick={handleLogout}>Logout</p></Link> }
+         {isAuthenticated && <Link to="/"><p onClick={handleLogout}>Logout</p></Link> }
         
         </div>
       </div>
       <div className="navbar-sign">
-      {user ? (
+      {isAuthenticated ? (
         <>
          <Link to="/mint"> 
           <button type='button' className='primary-btn'>Mint NFTs</button>
@@ -50,7 +56,7 @@ import {  Link } from "react-router-dom";
       ): (
         <>
         <Link to="/login"> 
-         <button type='button' className='primary-btn' onClick={handleLogin} >Sign In</button>
+         <button type='button' className='primary-btn' >Sign In</button>
         </Link>
         <Link to="/register"> 
           <button type='button' className='secondary-btn'>Sign Up</button>
@@ -73,15 +79,15 @@ import {  Link } from "react-router-dom";
             <div className="navbar-menu_container-links-sign">
             {user ? (
               <>
-              <Link to="/create"> 
-                <button type='button' className='primary-btn' >Create</button>
+              <Link to="/mint"> 
+                <button type='button' className='primary-btn' >Mint NFTs</button>
               </Link>
               <button type='button' className='secondary-btn'>Connect</button>
               </>
             ): (
               <>
               <Link to="/login"> 
-              <button type='button' className='primary-btn' onClick={handleLogin} >Sign In</button>
+              <button type='button' className='primary-btn'>Sign In</button>
               </Link>
               <Link to="/register"> 
                 <button type='button' className='secondary-btn'>Sign Up</button>
