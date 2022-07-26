@@ -54,7 +54,7 @@ const Create = () => {
         <h1>Mint Warranty NFTs</h1>
         <div className='add-item-box'>
 					<input value={inputValue} onChange={(e) => setInputValue(e.target.value)} 
-          className='add-item-input' placeholder='Add product serial number...' autofocus/>
+          className='add-item-input' placeholder='Add product serial number...' autoFocus/>
 					<FontAwesomeIcon icon={faPlus} onClick={() => handleAddButtonClick()} />
 				</div>
         <div className='item-list'>
