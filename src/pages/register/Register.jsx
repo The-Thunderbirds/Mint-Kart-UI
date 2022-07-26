@@ -4,6 +4,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import Image from '../../assets/Image.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../actions/userActions';
+import { BackdropLoader } from '../../components';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,8 @@ const Register = () => {
   }
 
   return (
+    <>
+    {loading && <BackdropLoader />}
     <div className='register section__padding'>
       <div className="register-container">
         <h1>Register</h1>
@@ -130,6 +133,7 @@ const Register = () => {
         </form>
       </div>
     </div>
+    </>
    )
 };
 
