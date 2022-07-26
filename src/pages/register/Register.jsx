@@ -3,10 +3,14 @@ import './register.css'
 import {Link, useNavigate} from 'react-router-dom'
 import Image from '../../assets/Image.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../actions/userActions';
+import { clearErrors, registerUser } from '../../actions/userActions';
 import { BackdropLoader } from '../../components';
+import { useSnackbar } from 'notistack';
 
 const Register = () => {
+
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
   const { loading, isAuthenticated, error } = useSelector((state) => state.user);
@@ -18,13 +22,16 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('Male');
   const [isSeller, setIsSeller] = useState('true');
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if(error) {
+      enqueueSnackbar(error, { variant: "error" });
+      dispatch(clearErrors());
+    }
+    if(isAuthenticated) {
       navigate('/')
     }
-  }, [isAuthenticated, navigate]);
+  }, [dispatch, error, isAuthenticated, navigate, enqueueSnackbar]);
 
   const handleAvatarChange = (e) => {
     const reader = new FileReader();
@@ -40,6 +47,11 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(password.length < 8) {
+      enqueueSnackbar("Password length must be atleast 8 characters", { variant: "warning" });
+      return;
+    }    
 
     const formData = new FormData();
     formData.set("name", name);
