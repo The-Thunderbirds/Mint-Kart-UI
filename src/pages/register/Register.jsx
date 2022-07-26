@@ -21,7 +21,7 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('Male');
-  const [isSeller, setIsSeller] = useState('true');
+  const [role, setRole] = useState('seller');
 
   useEffect(() => {
     if(error) {
@@ -68,9 +68,9 @@ const Register = () => {
     formData.set("gender", gender);
     formData.set("password", password);
     formData.set("avatar", avatar);
-    // formData.set("isSeller", isSeller);
+    formData.set("role", role);
 
-    // console.log(name, email, password, gender, isSeller)
+    console.log(name, email, password, gender, role)
 
     dispatch(registerUser(formData));
   }
@@ -137,11 +137,11 @@ const Register = () => {
           <div className="register-formGroup">
             <label>What represents you?</label>
             <select
-              value={isSeller}
-              onChange={(e) => setIsSeller(e.target.value)}
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
             >
-              <option value="true">Seller</option>
-              <option value="false">Customer Service</option>
+              <option value="seller">Seller</option>
+              <option value="customer-service">Customer Service</option>
             </select>          
           </div>
          <div className="register-button">
