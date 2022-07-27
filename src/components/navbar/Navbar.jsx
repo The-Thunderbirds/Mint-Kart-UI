@@ -34,7 +34,7 @@ const Navbar = () => {
     <div className='navbar'>
       <div className="navbar-links">
         <div className="navbar-links_logo">
-          <img src={logo} alt="logo" height={'35px'} style={{'borderRadius':"100%"}}/>
+          <img src={logo} alt="logo"/>
           <Link to="/"> 
             <h1>MintKart</h1>
           </Link>
@@ -53,8 +53,8 @@ const Navbar = () => {
             <button type='button' className='primary-btn'>Mint NFTs</button>
           </Link>
           <Tooltip title={user.public_key_hash}>
-          <button type='button' className='secondary-btn' >
-            <RiWallet3Line color="#2874f0" size={27} /> {user.public_key_hash.substr(0, 7) + "..."} 
+          <button type='button' className='secondary-btn'>
+            <RiWallet3Line color="#2874f0" size={27} style={{"display": "initial"}}/> {user.public_key_hash.substr(0, 7) + "..."} 
           </button>                    
           </Tooltip>
         </>

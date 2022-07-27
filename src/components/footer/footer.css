@@ -126,6 +126,7 @@ line-height: 24px;
 }
 .footer-icon{
  margin-inline: 10px;
+ display: initial;
 }
 @media screen and (max-width: 850px) {
   .footer-heading h1 {
