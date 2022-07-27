@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from "axios";
 
 const Create = () => {
 
@@ -15,7 +16,7 @@ const Create = () => {
 
   const { user, loading, isAuthenticated, error } = useSelector((state) => state.user);
 
-  const [items, setItems] = useState([]);
+  const [serialNums, setSerialNums] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [password, setPassword] = useState('');
 
@@ -44,20 +45,27 @@ const Create = () => {
 
 
   const handleAddButtonClick = () => {
-		const newItem = {
-			itemName: inputValue
-		};
 
-		const newItems = [...items, newItem];
-
-		setItems(newItems);
+    const newSerialNums =  [...serialNums, inputValue];
+    setSerialNums(newSerialNums);
 		setInputValue('');
 	};
 
-  const handleMint = () => {
+  const handleMint = async () => {
     const email = user.email;
+    
+    const config = {
+      headers: {
+          "Content-Type": "application/json",
+      },
+  }
+    const { data } = await axios.post(
+      '/api/v1/batch-mint',
+      {serialNums, password},
+      config
+    );
 
-    // TODO: axios post request
+    console.log(data);
   }
 
   return (
@@ -70,10 +78,10 @@ const Create = () => {
 					<FontAwesomeIcon icon={faPlus} onClick={() => handleAddButtonClick()} />
 				</div>
         <div className='item-list'>
-          {items.map((item, index) => (
-            <div className='item-container'>
+          {serialNums.map(serialNum => (
+            <div key={serialNum} className='item-container'>
               <div className='item-name'>
-                <span>{item.itemName}</span>
+                <span>{serialNum}</span>
               </div>
             </div>
           ))}
