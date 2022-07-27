@@ -3,4 +3,6 @@ export {default as Header} from './header/Header';
 export {default as Bids} from './bids/Bids';
 export {default as Footer} from './footer/Footer';
 export {default as BackdropLoader} from './backdrop/Backdrop';
+export {default as Loader} from './loader/Loader';
 export {default as ScrollToTop} from './scrolltotop/ScrollToTop';
+export {PreviousBtn, NextBtn} from './buttons/Buttons';
