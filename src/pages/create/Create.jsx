@@ -5,8 +5,15 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useSnackbar } from 'notistack';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Create = () => {
+
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { user, loading, isAuthenticated, error } = useSelector((state) => state.user);
 
   const [items, setItems] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -37,7 +44,6 @@ const Create = () => {
 
 
   const handleAddButtonClick = () => {
-    console.log(inputValue)
 		const newItem = {
 			itemName: inputValue
 		};
@@ -47,6 +53,12 @@ const Create = () => {
 		setItems(newItems);
 		setInputValue('');
 	};
+
+  const handleMint = () => {
+    const email = user.email;
+
+    // TODO: axios post request
+  }
 
   return (
     <div className='create section__padding'>
@@ -88,7 +100,7 @@ const Create = () => {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleClose}>
+        <Button variant="primary" onClick={handleMint}>
           Confirm
         </Button>
       </Modal.Footer>
