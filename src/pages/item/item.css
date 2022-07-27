@@ -1,22 +1,40 @@
+.not-exists {
+  min-height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.not-exists h1{
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 42px;
+  color: #FFFFFF;
+}
+
 .item{
   display: flex;
-  padding: 0 6rem;
+  padding: 0 3rem;
   font-family: var(--font-family);
 }
+
 .item-image{
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   border-right: 1px solid rgba(165, 165, 165, 0.1);
+}
 
-}
 .item-image img {
-  width: 100%;
-  height: 100%;
-  border-radius: 70px;
-  padding: 50px;
+  width: 65%;
+  height: auto;
+  border-radius: 50px;
+  padding: 30px;
 }
+
 .item-content{
   flex:1;
   display: flex;

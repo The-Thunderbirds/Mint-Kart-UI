@@ -1,38 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './item.css'
-import creator from '../../assets/seller2.png'
 import item from '../../assets/item1.png'
+import { useSnackbar } from 'notistack';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { clearErrors, getProductDetails, } from '../../actions/productActions';
+import { Loader, PreviousBtn, NextBtn } from '../../components';
+
 
 const Item = () => {
 
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const params = useParams();
 
+  const { product, loading, error } = useSelector((state) => state.productDetails);
+
+  const productId = params.id;
+
+  useEffect(() => {
+    if(error) {
+      enqueueSnackbar(error, { variant: "error" });
+      dispatch(clearErrors());
+      return;
+    }
+    dispatch(getProductDetails(productId));
+    // eslint-disable-next-line
+  }, [dispatch, productId, error, enqueueSnackbar]);
 
   return( 
-      <div className='item section__padding'>
-        <div className="item-image">
-          <img src={item} alt="item" />
-        </div>
+    <>
+      {loading ? <Loader /> :
+      product === undefined ? <div className="not-exists"><h1>Product doesn't exist</h1></div> :
+      product[0] === undefined ? <div className="not-exists"><h1>Product doesn't exist</h1></div> :
+      (
+        <>
+        <div className='item section__padding'>
+          <div className="item-image">
+            <img src={product[0].images[0].url} alt="item" />
+          </div>
           <div className="item-content">
             <div className="item-content-title">
-              <h1>Abstact Smoke Red Blue</h1>
-              <p>From <span>4.5 ETH</span> ‧ 20 of 25 available</p>
-            </div>
-            <div className="item-content-creator">
-              <div><p>Creater</p></div>
-              <div>
-                <img src={creator} alt="creator" />
-                <p>Rian Leon </p>
-              </div>
+              <h1>{product[0].name}</h1>
             </div>
             <div className="item-content-detail">
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
+              <p>{product[0].description}</p>
             </div>
             <div className="item-content-buy">
-              <button className="primary-btn">Buy For 4.5 ETH</button>
-              <button className="secondary-btn">Make Offer</button>
+              <button className="primary-btn">Price ₹{product[0].price}</button>
             </div>
           </div>
-      </div>
+        </div>
+        </>
+      )
+      }
+    </>
   )
 };
 
