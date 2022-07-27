@@ -52,7 +52,6 @@ const Create = () => {
 	};
 
   const handleMint = async () => {
-    const email = user.email;
     
     const config = {
       headers: {
