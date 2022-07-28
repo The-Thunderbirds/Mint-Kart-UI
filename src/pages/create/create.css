@@ -232,3 +232,16 @@ line-height: 21px;
     margin-bottom: 20px;
   }
 }
+
+.slick-list {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.slick-prev {
+  left: 5px;
+}
+
+.slick-next {
+  right: 5px;
+}

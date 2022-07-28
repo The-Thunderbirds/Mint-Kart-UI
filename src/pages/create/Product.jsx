@@ -1,5 +1,4 @@
 const Product = ({ images, name, serialNumber, warranty }) => {
-    console.log(images)
     return (
         <a target="_blank" href={`/post/${serialNumber}`}
             className="flex flex-col items-center gap-1.5 p-6 cursor-pointer">
