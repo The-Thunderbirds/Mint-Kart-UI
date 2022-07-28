@@ -18,14 +18,15 @@ const Item = () => {
   const productId = params.id;
 
   useEffect(() => {
+    dispatch(getProductDetails(productId));
+  }, [dispatch, productId]);
+
+  useEffect(() => {
     if(error) {
       enqueueSnackbar(error, { variant: "error" });
       dispatch(clearErrors());
-      return;
     }
-    dispatch(getProductDetails(productId));
-    // eslint-disable-next-line
-  }, [dispatch, productId, error, enqueueSnackbar]);
+  }, [dispatch, error, enqueueSnackbar]);
 
   const settings = {
     autoplay: true,
@@ -41,7 +42,7 @@ const Item = () => {
   return( 
     <>
       {loading ? <Loader /> :
-      product === undefined ? <div className="not-exists"><h1>Product doesn't exist</h1></div> :
+      error !== undefined ? <div className="not-exists"><h1>Product doesn't exist</h1></div> :
       product[0] === undefined ? <div className="not-exists"><h1>Product doesn't exist</h1></div> :
       (
         <>
