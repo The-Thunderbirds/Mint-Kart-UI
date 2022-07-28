@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { clearErrors, getProductDetails, } from '../../actions/productActions';
 import { Loader, PreviousBtn, NextBtn } from '../../components';
 import Slider from 'react-slick';
+import "./item.css";
 
 const Item = () => {
 
