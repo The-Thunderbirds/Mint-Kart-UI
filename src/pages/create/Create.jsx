@@ -44,27 +44,62 @@ const Create = () => {
 
   const handleShow = () => setShow(true);
 
-  const handleAddButtonClick = async () => {
+  const addProductInQueue = async (id) => {
     try {
-      const { data } = await axios.get(`/api/v1/product/serial/${inputValue}`);
+      console.log(id);
+      const { data } = await axios.get(`/api/v1/product/serial/${id}`);
 
       // Checking for duplicate serial numbers
       // for(let i = 0; i < serialNums.length; i++) { 
-      //   if(serialNums[i] === inputValue) {
+      //   if(serialNums[i] === id) {
       //     enqueueSnackbar("Product with given serial number already exists", { variant: "error" });
       //     return;
       //     }
       // }
 
-      const newSerialNums =  [...serialNums, inputValue];
+      console.log(serialNums);
+      const newSerialNums =  [...serialNums, id];
+      console.log(newSerialNums);
       const newProducts = [...products, data.product];
       setSerialNums(newSerialNums);
+      console.log(serialNums);
       setProducts(newProducts);
-      setInputValue('');
     } catch (error) {
       enqueueSnackbar(error.response.data.message, { variant: "error" });
       return;
     }    
+  }
+
+  const handleAddButtonClick = async () => {
+    const spacesepInput = inputValue.split(" ");
+    for(let i = 0; i < spacesepInput.length; i++) { 
+      const id = spacesepInput[i];
+      try {
+        const { data } = await axios.get(`/api/v1/product/serial/${id}`);
+  
+        // Checking for duplicate serial numbers (not working properly)
+        // const hasDuplicate = false;
+        // for(let j = 0; j < serialNums.length; j++) { 
+        //   if(serialNums[j] === id) {
+        //      enqueueSnackbar(`Product with given serial number ${id.substr(0, 10)}... already exists`, { variant: "error" });
+        //      hasDuplicate = true;
+        //     //  break;
+        //   }
+        // }
+        // if(hasDuplicate) continue;
+  
+        const newSerialNums = serialNums;
+        newSerialNums.push(id);
+        setSerialNums([...newSerialNums]);
+
+        const newProducts = products;
+        newProducts.push(data.product);
+        setProducts([...newProducts]);
+      } catch (error) {
+        enqueueSnackbar(error.response.data.message, { variant: "error" });
+      }    
+    }
+    setInputValue('');
 	};
 
   const handleMint = async () => {
@@ -89,7 +124,7 @@ const Create = () => {
         <h1 className="create-container-title">Mint Warranty NFTs</h1>
         <div className='add-item-box'>
 					<input value={inputValue} onChange={(e) => setInputValue(e.target.value)} 
-          className='add-item-input' placeholder='Add product serial number...' autoFocus/>
+          className='add-item-input' placeholder='Add product serial number... [Separated by spaces]' autoFocus/>
 					<FontAwesomeIcon icon={faPlus} onClick={() => handleAddButtonClick()} />
 				</div>
         {products.length !== 0 && (
@@ -106,19 +141,6 @@ const Create = () => {
             </Slider>
         </section>
         )}
-
-        {/* <div className='item-list'>
-          {products.map(product => (
-            <div key={product[0].serialNumber} className='item-container'>
-              {console.log(product[0])}
-              <div className='item-name'>
-                <a target="_blank" href={`/post/${product[0].serialNumber}`}>
-                  <span>{product[0].serialNumber}</span>
-                </a>
-              </div>
-            </div>
-          ))}
-        </div> */}
         <button className='mint-button' onClick={handleShow}>Mint all Items</button>
       </div>
       <Modal show={show} onHide={handleClose} centered>
