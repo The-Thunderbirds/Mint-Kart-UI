@@ -13,6 +13,16 @@ const reducer = combineReducers({
     productDetails: productDetailsReducer,
 });
 
+// convert object to string and store in localStorage
+const saveToLocalStorage = (state) => {
+    try {
+        const serialisedState = JSON.stringify(state);
+        localStorage.setItem("persistantState", serialisedState);
+    } catch (e) {
+        console.warn(e);
+    }
+}
+
 let initialState = {};
 
 const middleware = [thunk];
@@ -22,5 +32,9 @@ const store = configureStore(
     initialState,
     composeWithDevTools(applyMiddleware(...middleware))
 );
+
+// listen for store changes and use saveToLocalStorage to
+// save them to localStorage
+store.subscribe(() => saveToLocalStorage(store.getState()));
 
 export default store;
