@@ -1,3 +1,7 @@
+.create_section__padding{
+  padding: 2rem 5rem;
+}
+
 .add-item-box {
   background: #2D2E36;
   display: flex;
@@ -83,10 +87,10 @@
   font-size: 22px;
   line-height: 42px;
   margin-bottom: 20px;
-  min-width: 60%;
+  min-width: 100%;
 }
 
-.create-container h1{
+.create-container-title {
   font-weight: 600;
   font-size: 28px;
   line-height: 42px;
