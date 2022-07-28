@@ -7,7 +7,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useSnackbar } from 'notistack';
 import axios from "axios";
-import { Link } from 'react-router-dom';
 import Product from './Product';
 import Slider from 'react-slick';
 import { NextBtn, PreviousBtn } from '../../components';
@@ -43,32 +42,6 @@ const Create = () => {
   }
 
   const handleShow = () => setShow(true);
-
-  const addProductInQueue = async (id) => {
-    try {
-      console.log(id);
-      const { data } = await axios.get(`/api/v1/product/serial/${id}`);
-
-      // Checking for duplicate serial numbers
-      // for(let i = 0; i < serialNums.length; i++) { 
-      //   if(serialNums[i] === id) {
-      //     enqueueSnackbar("Product with given serial number already exists", { variant: "error" });
-      //     return;
-      //     }
-      // }
-
-      console.log(serialNums);
-      const newSerialNums =  [...serialNums, id];
-      console.log(newSerialNums);
-      const newProducts = [...products, data.product];
-      setSerialNums(newSerialNums);
-      console.log(serialNums);
-      setProducts(newProducts);
-    } catch (error) {
-      enqueueSnackbar(error.response.data.message, { variant: "error" });
-      return;
-    }    
-  }
 
   const handleAddButtonClick = async () => {
     const spacesepInput = inputValue.split(" ");
@@ -108,14 +81,12 @@ const Create = () => {
       headers: {
           "Content-Type": "application/json",
       },
-  }
+    }
     const { data } = await axios.post(
       '/api/v1/batch-mint',
       {serialNums, password},
       config
     );
-
-    console.log(data);
   }
 
   return (
@@ -133,7 +104,6 @@ const Create = () => {
                 <h1 className="text-xl font-medium">Minting Queue</h1>
             </div>            
             <hr />
-            {/* <!-- header --> */}
             <Slider {...settings}>
                 {products.map((item, i) => (
                     <Product {...item[0]} key={i} />
