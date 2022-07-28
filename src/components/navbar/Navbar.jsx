@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    enqueueSnackbar("Logout Successfully", { variant: "success" });
+    enqueueSnackbar("Logged out Successfully", { variant: "success" });
     navigate("/login");
   }
 
