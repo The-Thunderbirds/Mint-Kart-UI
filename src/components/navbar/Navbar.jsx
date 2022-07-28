@@ -49,9 +49,18 @@ const Navbar = () => {
       <div className="navbar-sign">
       {isAuthenticated ? (
         <>
-          <Link to="/mint"> 
-            <button type='button' className='primary-btn'>Mint NFTs</button>
-          </Link>
+          {
+            user.role === "seller" &&
+            <Link to="/mint"> 
+              <button type='button' className='primary-btn'>Mint NFTs</button>
+            </Link>
+          }
+          {
+            user.role === "customer-service" &&
+            <Link to="/check-warranty"> 
+              <button type='button' className='primary-btn'>Check Warranty</button>
+            </Link> 
+          }
           <Tooltip title={user.public_key_hash}>
           <button type='button' className='secondary-btn'>
             <RiWallet3Line color="#2874f0" size={27} style={{"display": "initial"}}/> {user.public_key_hash.substr(0, 7) + "..."} 
