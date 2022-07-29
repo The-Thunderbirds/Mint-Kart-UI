@@ -233,15 +233,19 @@ line-height: 21px;
   }
 }
 
+.slick-slider {
+  margin: 0px 15px;
+}
+
 .slick-list {
   margin-left: 20px;
   margin-right: 20px;
 }
 
 .slick-prev {
-  left: 5px;
+  left: -10px;
 }
 
 .slick-next {
-  right: 5px;
+  right: -10px;
 }
