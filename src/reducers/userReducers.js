@@ -20,7 +20,7 @@ import {
     REMOVE_USER_DETAILS,
 } from '../constants/userConstants';
 
-export const userReducer = (state = JSON.parse(localStorage.getItem('persistantState')).user || { user : {} }, { type, payload }) => {
+export const userReducer = (state = JSON.parse(localStorage.getItem('persistantState'))?.user || { user : {} }, { type, payload }) => {
     switch (type) {
         case LOGIN_USER_REQUEST:
         case REGISTER_USER_REQUEST:
