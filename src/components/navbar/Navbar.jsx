@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -18,28 +20,32 @@ const Navbar = () => {
 
   const [toggleMenu,setToggleMenu] = useState(false)
 
-  const { user, loading, isAuthenticated, error } = useSelector((state) => state.user);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
 
   const [show, setShow] = useState(false);
   const [balance, setBalance] = useState(0);
+  const [reqLoad, setReqLoad] = useState(false);
 
-  const handleClose = () => {setShow(false);}
-  const handleShow = async () => {
-
+  const updateBalance = async () => {
     const address = user.public_key_hash;
-    // const address = "tz1TpvrMd352n7LZgb3TAd1kE4XZvTLS5EvR";
-    const { data } = await axios.get(
-      `https://api.jakartanet.tzkt.io/v1/accounts/${address}/balance`
-    );
+    const { data } = await axios.get(`https://api.jakartanet.tzkt.io/v1/accounts/${address}/balance`);
     setBalance(data / 10**6);
+  }
+
+  const handleClose = () => {setShow(false);}  
+  const handleShow = () => {
+    updateBalance();
     setShow(true);
   }
 
   const requestTz = async () => {
-    const { data } = await axios.get(
-      `/api/v1/request-xtz`
-    );
-    console.log("Request for tz");
+    setReqLoad(true);
+    const { data } = await axios.get(`/api/v1/request-xtz`);
+    if(data.success) {
+      setReqLoad(false);
+      handleClose();
+      enqueueSnackbar("Request for xtz has been sent successfully", { variant: "success" });
+    }
   }
 
   const handleLogout = () => {
@@ -149,8 +155,9 @@ const Navbar = () => {
           Close
         </Button>
         <Button variant="primary" onClick={requestTz}>
-          Request for xtz
+          Request for xtz 
         </Button>
+        {reqLoad && <CircularProgress size={25}/>}
       </Modal.Footer>
       </Modal>
   </>
