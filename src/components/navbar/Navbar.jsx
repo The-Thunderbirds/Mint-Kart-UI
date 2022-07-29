@@ -7,6 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
 import { logoutUser } from '../../actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import axios from "axios";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -16,6 +19,25 @@ const Navbar = () => {
   const [toggleMenu,setToggleMenu] = useState(false)
 
   const { user, loading, isAuthenticated, error } = useSelector((state) => state.user);
+
+  const [show, setShow] = useState(false);
+  const [balance, setBalance] = useState(0);
+
+  const handleClose = () => {setShow(false);}
+  const handleShow = async () => {
+
+    const address = user.public_key_hash;
+    // const address = "tz1TpvrMd352n7LZgb3TAd1kE4XZvTLS5EvR";
+    const { data } = await axios.get(
+      `https://api.jakartanet.tzkt.io/v1/accounts/${address}/balance`
+    );
+    setBalance(data / 10**6);
+    setShow(true);
+  }
+
+  const requestTz = () => {
+    console.log("Request for tz");
+  }
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -31,6 +53,7 @@ const Navbar = () => {
    )
   
   return (
+    <>
     <div className='navbar'>
       <div className="navbar-links">
         <div className="navbar-links_logo">
@@ -62,7 +85,7 @@ const Navbar = () => {
             </Link> 
           }
           <Tooltip title={user.public_key_hash}>
-          <button type='button' className='secondary-btn'>
+          <button type='button' className='secondary-btn' onClick={handleShow}>
             <RiWallet3Line color="#2874f0" size={27} style={{"display": "initial"}}/> {user.public_key_hash.substr(0, 7) + "..."} 
           </button>                    
           </Tooltip>
@@ -114,6 +137,20 @@ const Navbar = () => {
         )}
       </div>
     </div>
+      <Modal show={show} onHide={handleClose} centered>
+      <Modal.Header>
+        <Modal.Title>Balance: {balance} tz</Modal.Title>
+      </Modal.Header>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={requestTz}>
+          Request for xtz
+        </Button>
+      </Modal.Footer>
+      </Modal>
+  </>
   )
 }
 
