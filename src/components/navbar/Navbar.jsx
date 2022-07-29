@@ -35,7 +35,10 @@ const Navbar = () => {
     setShow(true);
   }
 
-  const requestTz = () => {
+  const requestTz = async () => {
+    const { data } = await axios.get(
+      `/api/v1/request-xtz`
+    );
     console.log("Request for tz");
   }
 
