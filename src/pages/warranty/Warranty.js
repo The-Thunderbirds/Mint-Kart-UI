@@ -5,22 +5,30 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import axios from "axios";
 
 const Warranty = () => {
   
   const myRef = useRef(null)
 
   const [serialNum, setSerialNum] = useState('');
-  const [userEmail, setUserEmail] = useState('');
+  const [user_email, setUserEmail] = useState('');
   const [hasClickedCheck, setHasClickedCheck] = useState(false);
   const [hasNFT, setHasNFT] = useState(false);
   const [inWarranty, setInWarranty] = useState(false);
   const [currSNum, setCurrSNum] = useState('');
   const [newSNum, setNewSNum] = useState('');
-  const [date, setDate] = useState('');  
 
-  const handleCheckClick = () => {
+  const handleCheckClick = async () => {
     setHasClickedCheck(true);
+
+    const { data } = await axios.post(
+      `/api/v1/fetch-warranty`,
+      {serialNum, user_email}
+    );
+
+    console.log(data);
+    
     setHasNFT(true);
     myRef.current.scrollIntoView();
   }
@@ -40,7 +48,7 @@ const Warranty = () => {
       <div className="create-container">
         <h1 className="create-container-title">Check Product's Warranty</h1>
         <div className='add-item-box'>
-            <input value={userEmail} onChange={(e) => setUserEmail(e.target.value)} 
+            <input value={user_email} onChange={(e) => setUserEmail(e.target.value)} 
             className='add-item-input' placeholder='User email address...' autoFocus/>
         </div>
         <div className='add-item-box'>
@@ -161,10 +169,6 @@ const Warranty = () => {
             <Form.Label className="mt-2">New Serial Number</Form.Label>
             <Form.Control
               value={newSNum} onChange={(e) => setNewSNum(e.target.value)}
-            />
-            <Form.Label className="mt-2">Date</Form.Label>
-            <Form.Control
-              value={date} onChange={(e) => setDate(e.target.value)}
             />
           </Form.Group>
         </Form>
