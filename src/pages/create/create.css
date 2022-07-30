@@ -17,10 +17,6 @@
   margin-bottom: 10px;
 }
 
-.add-item-box svg {
-  margin-left: 5px;
-}
-
 .add-item-input {
   box-sizing: border-box;
   outline: none;
@@ -28,6 +24,7 @@
   background: transparent;
   color: white;
   width: 100%;
+  margin-right: 10px;
 }
 
 .item-list {

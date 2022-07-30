@@ -10,15 +10,20 @@ import axios from "axios";
 import Product from './Product';
 import Slider from 'react-slick';
 import { NextBtn, PreviousBtn } from '../../components';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
 
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   
   const [serialNums, setSerialNums] = useState([]);
   const [products, setProducts] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [password, setPassword] = useState('');
+  const [addLoading, setAddLoading] = useState(false);
+  const [mintLoading, setMintLoading] = useState(false);
 
   useEffect(() => {
     const keyDownHandler = event => {
@@ -32,6 +37,7 @@ const Create = () => {
     return () => {
       document.removeEventListener('keydown', keyDownHandler);
     };
+    // eslint-disable-next-line
   }, [inputValue]);  
 
   const [show, setShow] = useState(false);
@@ -44,6 +50,7 @@ const Create = () => {
   const handleShow = () => setShow(true);
 
   const handleAddButtonClick = async () => {
+    setAddLoading(true);
     const spacesepInput = inputValue.split(" ");
     for(let i = 0; i < spacesepInput.length; i++) { 
       const id = spacesepInput[i];
@@ -73,20 +80,33 @@ const Create = () => {
       }    
     }
     setInputValue('');
+    setAddLoading(false);
 	};
 
   const handleMint = async () => {
-    
-    const config = {
-      headers: {
-          "Content-Type": "application/json",
-      },
+    setMintLoading(true);
+    try {
+      const config = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+      }
+      const { data } = await axios.post(
+        '/api/v1/batch-mint',
+        {serialNums, password},
+        config
+      );
+      setMintLoading(false);
+      handleClose();
+      if(data.success) {
+        enqueueSnackbar("NFTs are minted successfully", { variant: "success" });
+        navigate('/');
+      }
+    } catch (error) {
+      setMintLoading(false);
+      handleClose();
+      enqueueSnackbar(error.response.data.message, { variant: "error" });
     }
-    const { data } = await axios.post(
-      '/api/v1/batch-mint',
-      {serialNums, password},
-      config
-    );
   }
 
   return (
@@ -96,7 +116,10 @@ const Create = () => {
         <div className='add-item-box'>
 					<input value={inputValue} onChange={(e) => setInputValue(e.target.value)} 
           className='add-item-input' placeholder='Add product serial number... [Separated by spaces]' autoFocus/>
-					<FontAwesomeIcon icon={faPlus} onClick={() => handleAddButtonClick()} />
+          {addLoading ? 
+            <CircularProgress size={25}/> :
+            <FontAwesomeIcon icon={faPlus} onClick={() => handleAddButtonClick()} />
+          }     
 				</div>
         {products.length !== 0 && (
         <section className="w-full shadow overflow-hidden">
@@ -136,6 +159,7 @@ const Create = () => {
         <Button variant="primary" onClick={handleMint}>
           Confirm
         </Button>
+        {mintLoading && <CircularProgress size={25}/>}
       </Modal.Footer>
       </Modal>
     </div>   

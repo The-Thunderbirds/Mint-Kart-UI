@@ -6,7 +6,7 @@ const Product = ({ images, name, serialNumber, warranty }) => {
                 <img draggable="false" className="w-full h-full object-contain" src={images[0].url} alt={name} />
             </div>
             <h2 className="font-medium text-sm mt-2">{name.substr(0, 30)}...</h2>
-            <span className="text-primary-green text-sm">{serialNumber.substr(0, 15)}...</span>
+            <span className="text-primary-green text-sm">{serialNumber.substr(0, 22)}...</span>
             <span className="text-gray-500 text-sm">{warranty} year warranty</span>
         </a>
     );
