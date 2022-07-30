@@ -99,7 +99,7 @@ const Create = () => {
       setMintLoading(false);
       handleClose();
       if(data.success) {
-        enqueueSnackbar("NFTs are minted successfully", { variant: "success" });
+        enqueueSnackbar("NFTs have been minted successfully", { variant: "success" });
         navigate('/');
       }
     } catch (error) {
