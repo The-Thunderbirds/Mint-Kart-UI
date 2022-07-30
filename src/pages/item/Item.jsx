@@ -112,7 +112,7 @@ const Item = () => {
                     {/* <!-- highlights & services details --> */}
 
                     {/* <!-- border box --> */}
-                    <div className="w-full mt-6 rounded-sm border flex flex-col">
+                    <div className="w-full mt-6 rounded-md border flex flex-col">
                         <h1 className="px-6 py-4 border-b text-2xl font-medium">Product Description</h1>
                         <div className="p-6">
                             <p className="text-sm">{product[0].description}</p>
