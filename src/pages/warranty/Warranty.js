@@ -94,15 +94,14 @@ const Warranty = () => {
       const id = response.data.replacements;
       const key = NFT_id;
       const { data } = await axios.get(`https://api.jakartanet.tzkt.io/v1/bigmaps/${id}/keys/${key}`);
-      console.log(data.value);
-      console.log(history);
-      setHistory([...data.value]);
-      setCurrSNum(data.value[0].toItem);
+      if(data.value !== undefined) {
+        setHistory([...data.value]);
+        setCurrSNum(data.value[0].toItem);
+      }
       
     } catch(e) {
       console.log(e);
     }
-    console.log(history);
   }
 
   const calculateWarrantyLeft = (createdAt, warranty) => {
