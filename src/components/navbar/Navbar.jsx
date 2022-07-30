@@ -1,7 +1,7 @@
 import React,{ useState} from 'react'
 import './navbar.css'
 import { Tooltip } from '@mui/material';
-import { RiMenu3Line, RiCloseLine, RiWallet3Line } from 'react-icons/ri';
+import { RiWallet3Line } from 'react-icons/ri';
 import logo from '../../assets/firedrop.jpg';
 import { Link, useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
@@ -17,8 +17,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-
-  const [toggleMenu,setToggleMenu] = useState(false)
 
   const { user, isAuthenticated } = useSelector((state) => state.user);
 
@@ -57,7 +55,8 @@ const Navbar = () => {
   const Menu = () => (  
     <>
       <Link to="/"><p>Explore</p> </Link>
-      {isAuthenticated && <p>My Items</p>}
+      {isAuthenticated && user.role === "seller" && <p>My Items</p>}
+      {isAuthenticated && user.role === "customer-service" && <Link to="/burn-nfts"><p>Burn NFTs</p></Link>}
     </>
    )
   
@@ -110,56 +109,24 @@ const Navbar = () => {
         </>
       )}
        
-
-       
-      </div>
-      <div className="navbar-menu">
-        {toggleMenu ? 
-        <RiCloseLine  color="#fff" size={27} onClick={() => setToggleMenu(false)} /> 
-        : <RiMenu3Line color="#fff" size={27} onClick={() => setToggleMenu(true)} />}
-        {toggleMenu && (
-          <div className="navbar-menu_container scale-up-center" >
-            <div className="navbar-menu_container-links">
-             <Menu/>
-            </div>
-            <div className="navbar-menu_container-links-sign">
-            {user ? (
-              <>
-              <Link to="/mint"> 
-                <button type='button' className='primary-btn' >Mint NFTs</button>
-              </Link>
-              <button type='button' className='secondary-btn'>Connect</button>
-              </>
-            ): (
-              <>
-              <Link to="/login"> 
-              <button type='button' className='primary-btn'>Sign In</button>
-              </Link>
-              <Link to="/register"> 
-                <button type='button' className='secondary-btn'>Sign Up</button>
-              </Link>
-              </>
-            )}
-           
-            </div>
-            </div>
-        )}
       </div>
     </div>
-      <Modal show={show} onHide={handleClose} centered>
-      <Modal.Header>
-        <Modal.Title>Balance: {balance} ꜩ</Modal.Title>
-      </Modal.Header>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={requestTz}>
-          Request for ꜩ 
-        </Button>
-        {reqLoad && <CircularProgress size={25}/>}
-      </Modal.Footer>
-      </Modal>
+
+    {/* Balance and Request ꜩ*/}
+    <Modal show={show} onHide={handleClose} centered>
+    <Modal.Header>
+      <Modal.Title>Balance: {balance} ꜩ</Modal.Title>
+    </Modal.Header>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={handleClose}>
+        Close
+      </Button>
+      <Button variant="primary" onClick={requestTz}>
+        Request for ꜩ 
+      </Button>
+      {reqLoad && <CircularProgress size={25}/>}
+    </Modal.Footer>
+    </Modal>
   </>
   )
 }
