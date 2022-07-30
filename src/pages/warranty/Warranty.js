@@ -1,5 +1,5 @@
 import React, {useState, useRef} from "react";
-import "./warranty.css";
+import "../create/create.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Form from 'react-bootstrap/Form';
