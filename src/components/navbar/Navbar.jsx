@@ -44,7 +44,7 @@ const Navbar = () => {
     if(data.success) {
       setReqLoad(false);
       handleClose();
-      enqueueSnackbar("Request for xtz has been sent successfully", { variant: "success" });
+      enqueueSnackbar("Request for ꜩ has been sent successfully", { variant: "success" });
     }
   }
 
@@ -148,14 +148,14 @@ const Navbar = () => {
     </div>
       <Modal show={show} onHide={handleClose} centered>
       <Modal.Header>
-        <Modal.Title>Balance: {balance} tz</Modal.Title>
+        <Modal.Title>Balance: {balance} ꜩ</Modal.Title>
       </Modal.Header>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
         <Button variant="primary" onClick={requestTz}>
-          Request for xtz 
+          Request for ꜩ 
         </Button>
         {reqLoad && <CircularProgress size={25}/>}
       </Modal.Footer>
