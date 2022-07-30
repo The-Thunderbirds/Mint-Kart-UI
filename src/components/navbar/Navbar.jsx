@@ -43,6 +43,9 @@ const Navbar = () => {
       setReqLoad(false);
       handleClose();
       enqueueSnackbar("Request for ꜩ has been sent successfully", { variant: "success" });
+      setTimeout(()=>{
+        enqueueSnackbar("Please have patience. It takes few second to process ꜩ request. Thanks", { variant: "success" });
+      }, 1000);
     }
   }
 
