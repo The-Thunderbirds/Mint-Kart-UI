@@ -121,7 +121,7 @@ const Item = () => {
                     {/* <!-- border box --> */}
 
                     {/* <!-- specifications border box --> */}
-                    <div className="w-full mt-4 pb-4 rounded-sm border flex flex-col">
+                    <div className="w-full mt-4 pb-4 rounded-md border flex flex-col">
                         <h1 className="px-6 py-4 border-b text-2xl font-medium">Specifications</h1>
                         <h1 className="px-6 py-3 text-lg">General</h1>
 
