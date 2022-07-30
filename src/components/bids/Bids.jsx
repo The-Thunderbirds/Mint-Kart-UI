@@ -1,6 +1,6 @@
 import React from 'react'
 import './bids.css'
-import { AiFillHeart,AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 import bids1 from '../../assets/bids1.png'
 import bids2 from '../../assets/bids2.png'
 import bids3 from '../../assets/bids3.png'
@@ -28,7 +28,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>1.25 <span>ETH</span></p>
+                <p>₹ <span>5000</span></p>
                 <p> <AiFillHeart /> 92</p>
               </div>
             </div>
@@ -42,7 +42,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>0.20 <span>ETH</span></p>
+                <p>₹ <span>4000</span></p>
                 <p> <AiFillHeart /> 25</p>
               </div>
             </div>
@@ -56,7 +56,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>0.55 <span>ETH</span></p>
+                <p>₹ <span>7000</span></p>
                 <p> <AiFillHeart /> 55</p>
               </div>
             </div>
@@ -70,7 +70,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>0.87 <span>ETH</span></p>
+                <p>₹ <span>3000</span></p>
                 <p> <AiFillHeart /> 82</p>
               </div>
             </div>
@@ -84,7 +84,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>0.09 <span>ETH</span></p>
+                <p>₹ <span>5000</span></p>
                 <p> <AiFillHeart /> 22</p>
               </div>
             </div>
@@ -98,7 +98,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>0.90 <span>ETH</span></p>
+                <p>₹ <span>1000</span></p>
                 <p> <AiFillHeart /> 71</p>
               </div>
             </div>
@@ -112,7 +112,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>0.52 <span>ETH</span></p>
+                <p>₹ <span>9000</span></p>
                 <p> <AiFillHeart /> 63</p>
               </div>
             </div>
@@ -126,7 +126,7 @@ const Bids = ({title}) => {
               </Link>
               </div>
               <div className="bids-card-bottom">
-                <p>0.85 <span>ETH</span></p>
+                <p>₹ <span>6000</span></p>
                 <p> <AiFillHeart /> 66</p>
               </div>
             </div>
