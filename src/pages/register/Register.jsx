@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './register.css'
-import {Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Image from '../../assets/Image.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, registerUser } from '../../actions/userActions';
@@ -70,8 +70,6 @@ const Register = () => {
     formData.set("avatar", avatar);
     formData.set("role", role);
 
-    console.log(name, email, password, gender, role)
-
     dispatch(registerUser(formData));
   }
 
@@ -110,17 +108,17 @@ const Register = () => {
             />
           </div>
           <div className="register-formGroup">
-            <label>Phone Number</label>
-            <input type="tel" required
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-          <div className="register-formGroup">
             <label>Password</label>
             <input type="password" required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="register-formGroup">
+            <label>Phone Number</label>
+            <input type="tel" required
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           <div className="register-formGroup">
