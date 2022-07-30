@@ -9,6 +9,7 @@ import axios from "axios";
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { BackdropLoader } from '../../components';
+import { MINTKART_CONTRACT_ADDRESS } from "../../constant";
 
 const Warranty = () => {
   
@@ -19,6 +20,7 @@ const Warranty = () => {
   const [user_email, setUserEmail] = useState('');
 
   const [checkLoading, setCheckLoading] = useState(false);  
+  const [addHistoryLoading, setAddHistoryLoading] = useState(false);
 
   const [customer, setCustomer] = useState();
   const [order, setOrder] = useState();
@@ -26,9 +28,10 @@ const Warranty = () => {
   const [nftId, setNftId] = useState("");
   const [inWarranty, setInWarranty] = useState(false);
   const [warrantyDaysLeft, setWarrantyDaysLeft] = useState(0);
+  const [history, setHistory] = useState([]);
 
   const [currSNum, setCurrSNum] = useState('');
-  const [newSNum, setNewSNum] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleCheckClick = async () => {
     setCustomer(null);
@@ -45,11 +48,13 @@ const Warranty = () => {
   
       console.log(data);
       if(data.success) {
+        setCurrSNum(serialNum);
         setCustomer(data.user);
         setOrder(data.order);
         setProduct(data.product);
         setNftId(data.product.nft_id);
         calculateWarrantyLeft(data.order.createdAt, data.product.warranty);
+        fetchHistory(data.product.nft_id);
         myRef.current.scrollIntoView();
       }
       
@@ -61,11 +66,43 @@ const Warranty = () => {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setPassword("");
+    setShow(false);    
+  }
   const handleShow = () => setShow(true);
 
-  const addHistory = () => {
+  const addHistory = async () => {
+    setAddHistoryLoading(true)
+    const { data } = await axios.post(
+      '/api/v1/replace-item',
+      {serialNum: currSNum, nftId, password}
+    );
+    if(data.success) {
+      setTimeout(() => {
+        fetchHistory(nftId);
+        handleClose();
+      }, 1000);
+      enqueueSnackbar("Details have been updated successfully", { variant: "success" });      
+    }
+    setAddHistoryLoading(false)
+  }
 
+  const fetchHistory = async (NFT_id) => {
+    try {
+      const response = await axios.get(`https://api.jakartanet.tzkt.io/v1/contracts/${MINTKART_CONTRACT_ADDRESS}/storage`);
+      const id = response.data.replacements;
+      const key = NFT_id;
+      const { data } = await axios.get(`https://api.jakartanet.tzkt.io/v1/bigmaps/${id}/keys/${key}`);
+      console.log(data.value);
+      console.log(history);
+      setHistory([...data.value]);
+      setCurrSNum(data.value[0].toItem);
+      
+    } catch(e) {
+      console.log(e);
+    }
+    console.log(history);
   }
 
   const calculateWarrantyLeft = (createdAt, warranty) => {
@@ -101,7 +138,7 @@ const Warranty = () => {
 
     <main className="mt-12 sm:mt-0" ref={myRef}>
       {product != null && nftId === "" ? <div className="not-exists"><h1>NFT does not exist</h1></div> : 
-      product != null && nftId !== ""? (
+      product != null && nftId !== "" ? (
         <>
         {/* <!-- product image & description container --> */}
         <div className="w-full flex flex-col sm:flex-row sm:p-2 relative text-white">
@@ -206,24 +243,26 @@ const Warranty = () => {
 
 
                     {/* <!-- specifications border box --> */}
-                    <div className="w-full mt-4 pb-4 rounded-sm border flex flex-col">
+                    <div className="w-full mt-4 pb-4 rounded-md border flex flex-col">
                         <h1 className="px-6 py-4 border-b text-2xl font-medium">History
                         <FontAwesomeIcon className="float-right cursor-pointer" icon={faPlus} 
                         onClick={handleShow}/>
                         </h1>
 
                         {/* <!-- specs list --> */}
-                        {/* {product[0].specifications?.map((spec, i) => (
-                          <div className="px-4 py-4 flex items-center text-sm">
+                        {history.map((data, i) => (
+                          <>
+                          <div className="px-4 py-4 flex items-center text-sm" key={i}>
                               <p className="text-neutral-400 w-2/12">Old Serial Number</p>
-                              <p className="flex-1">{"old serial num"}</p>
+                              <p className="flex-1 pr-1">{data.fromItem}</p>
                               <p className="text-neutral-400 w-2/12">New Serial Number</p>
-                              <p className="flex-1">{"new serial num"}</p>
+                              <p className="flex-1 pr-1">{data.toItem}</p>
                               <p className="text-neutral-400 w-2/12">Date</p>
-                              <p className="flex-1">{"Date"}</p>
+                              <p className="flex-1">{new Date(data.replacementTime).toLocaleDateString("en-US", options)}</p>
                           </div>
                           <hr/>
-                        ))} */}
+                          </>
+                        ))}
                         {/* <!-- specs list --> */}
 
                     </div>
@@ -249,9 +288,9 @@ const Warranty = () => {
             <Form.Control
               value={currSNum} onChange={(e) => setCurrSNum(e.target.value)}
             />
-            <Form.Label className="mt-2">New Serial Number</Form.Label>
+            <Form.Label className="mt-2">Your Password</Form.Label>
             <Form.Control
-              value={newSNum} onChange={(e) => setNewSNum(e.target.value)}
+              value={password} onChange={(e) => setPassword(e.target.value)} type="password"
             />
           </Form.Group>
         </Form>
@@ -261,8 +300,9 @@ const Warranty = () => {
           Close
         </Button>
         <Button variant="primary" onClick={addHistory}>
-          Change product
+          Update product
         </Button>
+        {addHistoryLoading && <CircularProgress size={25}/>}
       </Modal.Footer>
     </Modal>
     </>
