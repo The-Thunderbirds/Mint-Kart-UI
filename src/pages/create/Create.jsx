@@ -57,7 +57,7 @@ const Create = () => {
       try {
         const { data } = await axios.get(`/api/v1/product/serial/${id}`);
   
-        // Checking for duplicate serial numbers (not working properly)
+        // Checking for duplicate serial numbers
         let hasDuplicate = false;
         for(let j = 0; j < serialNums.length; j++) { 
           if(serialNums[j] === id) {
