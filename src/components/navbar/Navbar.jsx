@@ -124,8 +124,8 @@ const Navbar = () => {
       <Button variant="secondary" onClick={handleClose}>
         Close
       </Button>
-      <Button variant="primary" onClick={requestTz}>
-        Request for ꜩ 
+      <Button variant="primary" onClick={!reqLoad ? requestTz : null} disabled={reqLoad}>          
+        {reqLoad ? 'Loading…' : 'Request for ꜩ'}
       </Button>
       {reqLoad && <CircularProgress size={25}/>}
     </Modal.Footer>
