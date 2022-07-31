@@ -27,6 +27,7 @@ const Warranty = () => {
   const [product, setProduct] = useState();
   const [nftId, setNftId] = useState("");
   const [inWarranty, setInWarranty] = useState(false);
+  const [burntOn, setBurntOn] = useState("");
   const [warrantyDaysLeft, setWarrantyDaysLeft] = useState(0);
   const [history, setHistory] = useState([]);
 
@@ -55,6 +56,7 @@ const Warranty = () => {
         setNftId(data.product.nft_id);
         calculateWarrantyLeft(data.order.createdAt, data.product.warranty);
         fetchHistory(data.product.nft_id);
+        fetchNFT(data.product.nft_id);
         myRef.current.scrollIntoView();
       }
       
@@ -116,6 +118,26 @@ const Warranty = () => {
       setWarrantyDaysLeft((warranty * 365) - diffDays);
     }
   } 
+
+  const fetchNFT = async (NFT_id) => {
+    try {
+      const response = await axios.get(`https://api.jakartanet.tzkt.io/v1/contracts/${MINTKART_CONTRACT_ADDRESS}/storage`);
+      const id = response.data.warranties;
+      const key = NFT_id;
+      const { data } = await axios.get(`https://api.jakartanet.tzkt.io/v1/bigmaps/${id}/keys/${key}`);
+      console.log(data)
+      if(data.value !== undefined) {
+        if(data.value.burntOn !== "1970-01-01T00:00:00Z") {
+          setBurntOn(data.value.burntOn);
+        }
+      }
+      
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+
 
   return (
     <>
@@ -235,6 +257,14 @@ const Warranty = () => {
                                 <span>{nftId}</span>
                                 </p>
                               </li>
+                              {
+                              !inWarranty &&
+                              <li>
+                                <p>{"NFT Burnt on- "}
+                                <span>{new Date(burntOn).toLocaleDateString("en-US", options)}</span>
+                                </p>
+                              </li>
+                              }
                             </ul>
                         </div>
                     </div>
