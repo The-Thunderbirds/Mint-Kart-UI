@@ -39,13 +39,16 @@ const Navbar = () => {
   const requestTz = async () => {
     setReqLoad(true);
     const { data } = await axios.get(`/api/v1/request-xtz`);
+    setReqLoad(false);
+    handleClose();
     if(data.success) {
-      setReqLoad(false);
-      handleClose();
       enqueueSnackbar("Request for ꜩ has been sent successfully", { variant: "success" });
       setTimeout(()=>{
         enqueueSnackbar("Please have patience. It takes few second to process ꜩ request. Thanks", { variant: "success" });
       }, 1000);
+    }
+    else {
+      enqueueSnackbar("You have enough ꜩ for transactions", { variant: "warning" });      
     }
   }
 
