@@ -134,7 +134,7 @@ const Create = () => {
             </Slider>
         </section>
         )}
-        <button className='mint-button' onClick={handleShow}>Mint all Items</button>
+        <Button className='mint-button' onClick={handleShow} disabled={products.length===0}>Mint all Items</Button>
       </div>
       <Modal show={show} onHide={handleClose} centered>
       <Modal.Header>
@@ -156,8 +156,8 @@ const Create = () => {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleMint}>
-          Confirm
+        <Button variant="primary" onClick={!mintLoading ? handleMint : null} disabled={mintLoading}>          
+          {mintLoading ? 'Loading…' : 'Confirm'}
         </Button>
         {mintLoading && <CircularProgress size={25}/>}
       </Modal.Footer>
