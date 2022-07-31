@@ -1,6 +1,6 @@
 import './App.css';
 import { Navbar,Footer} from './components'
-import { Home,Profile,Item,Create,Warranty,Login,Register } from './pages'
+import { Home,Profile,Item,Create,Warranty,Burn,Login,Register } from './pages'
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path=":item/:id" element={<Item />} />
             <Route path="/mint" element={<Create /> } />
+            <Route path="/burn-nfts" element={<Burn /> } />
             <Route path="/check-warranty" element={<Warranty /> } />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/login" element={ <Login />} />
